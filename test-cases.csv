@@ -1,0 +1,35 @@
+ID,Module,Scenario,Test Data,Expected Result,Actual Result,Status,Notes
+TC-REG-01,Registration,Register with all valid details,Valid name + new 10-digit mobile starting 6-9,Registration succeeds and record appears in tblpatients,,,Verify
+TC-REG-02,Registration,Register with already registered mobile,Mobile used in TC-REG-01,Rejected with mobile already registered message,Rejected: mobile number already registered,Pass,Observed during setup
+TC-REG-03,Registration,Mobile shorter than 10 digits,987650123,Rejected with validation message,,,Boundary - Verify
+TC-REG-04,Registration,Mobile longer than 10 digits,98765012345,Rejected with validation message,,,Boundary - Verify
+TC-REG-05,Registration,Mobile with letters,98765abcde,Rejected,,,Verify
+TC-REG-06,Registration,Mobile starting with 0-5,1234567890,Rejected,,,Verify
+TC-REG-07,Registration,All required fields empty,none,Form not submitted and required-field message shown,,,Verify
+TC-REG-08,Registration,Name with digits or symbols,Ravi123@,Rejected or sanitised,,,Verify
+TC-REG-09,Registration,Very long name (300 chars),300 x a,Handled without error or broken page,,,Boundary - Verify
+TC-REG-10,Registration,Script in a text field,<script>alert(1)</script>,Shown as plain text and no alert appears,,,Security
+TC-RGX-01,Regex,Mobile pattern ^[6-9][0-9]{9}$,9876501234 / 5876501234 / 98765,First accepted and the other two rejected,,,Compare with RegexTest.java
+TC-RGX-02,Regex,Name pattern ^[A-Za-z ]{2,50}$,Asha Patil / A / Asha123,First accepted and the other two rejected,,,
+TC-RGX-03,Regex,Email pattern,admin@gmail.com / admin@ / @gmail.com,First accepted and the other two rejected,,,
+TC-RGX-04,Regex,Pincode pattern ^[1-9][0-9]{5}$,411044 / 011044 / 4110,First accepted and the other two rejected,,,If field exists
+TC-LOG-01,Admin login,Valid credentials,admin / correct password,Dashboard opens,Dashboard opened,Pass,Observed during setup
+TC-LOG-02,Admin login,Wrong password,admin / wrongpass,Login refused and error shown,,,Verify
+TC-LOG-03,Admin login,Wrong username,nouser / any,Login refused,,,Verify
+TC-LOG-04,Admin login,Both fields empty,none,Login refused or required-field message,,,Verify
+TC-LOG-05,Admin login,SQL injection attempt,admin' OR '1'='1 / any,Login refused (success is a security defect),,,Security
+TC-LOG-06,Admin login,Open dashboard URL without login,Dashboard URL in private window,Redirected to login,,,Security - Verify
+TC-LOG-07,Admin login,Logout then browser Back,none,Dashboard not accessible,,,Security - Verify
+TC-ADM-01,Admin workflow,New request shows on dashboard,Register a patient then log in,Total Tests increases and request is listed,,,
+TC-ADM-02,Admin workflow,Assign a phlebotomist,Open new request and assign,Total Assigned increases,,,
+TC-ADM-03,Admin workflow,Update sample status,Move through status steps,Matching dashboard counter changes at each step,,,
+TC-ADM-04,Admin workflow,Deliver a report,Mark report delivered,Report Delivered increases,,,
+TC-ADM-05,Admin workflow,Dashboard totals match database,Compare with tbltestrecord rows,Numbers are equal,,,
+TC-SRC-01,Search report,Search existing patient,Registered mobile number,Patient record shown,,,
+TC-SRC-02,Search report,Search patient that does not exist,9000000000,No record found with no error,,,
+TC-SRC-03,Search report,Search with empty field,none,Validation message or empty result with no error,,,
+TC-SRC-04,Search report,Download a delivered report,Patient with delivered report,Report opens or downloads,,,
+TC-NAV-01,Navigation,Every top nav link opens,All 6 links,Each page loads without errors,,,
+TC-NAV-02,Navigation,Live Updates page loads and buttons work,live-test-updates.php,Page loads and buttons work,,,
+TC-NAV-03,Navigation,Narrow browser window,Resize window,Content stays readable,,,
+TC-NAV-04,Navigation,Open a URL that does not exist,/covid-tms/nopage.php,Not-found page and no PHP error dump,,,
