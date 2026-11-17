@@ -45,4 +45,4 @@ Covid19-TMS is a web application where:
 
 ## Author
 
-Your Name | Your Roll No. | Your College
+Kalyai Kolpe/ BECOB53/PCCOER
